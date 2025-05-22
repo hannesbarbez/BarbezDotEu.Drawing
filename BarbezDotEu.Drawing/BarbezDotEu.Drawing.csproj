@@ -2,10 +2,36 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+	  <Authors>Hannes Barbez</Authors>
+	  <Company>Hannes Barbez</Company>
+	  <Title>BarbezDotEu.Drawing</Title>
+	  <Product>BarbezDotEu.Drawing</Product>
+	  <PackageId>BarbezDotEu.Drawing</PackageId>
+	  <Copyright>©2025 Hannes Barbez</Copyright>
+	  <Version>1.0.0</Version>
+	  <Description>
+		  Drawing and imaging utilities, and depends on the `System.Drawing.Common` package
+	  </Description>
+	  <PackageTags>basic;Drawing;ImageHelper;IViewObject;RECT</PackageTags>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageProjectUrl>https://barbez.eu</PackageProjectUrl>
+	  <PackageOutputPath>./nupkg</PackageOutputPath>
+	  <RepositoryUrl>https://github.com/hannesbarbez/BarbezDotEu.Drawing</RepositoryUrl>
+	  <RepositoryType>GIT</RepositoryType>
+	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <PackageIcon>ICON.png</PackageIcon>
+	  <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="9.0.5" />
   </ItemGroup>
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\ICON.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
 </Project>

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Hannes Barbez. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
