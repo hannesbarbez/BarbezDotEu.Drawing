@@ -21,8 +21,10 @@ namespace BarbezDotEu.Drawing
         /// <returns>The loaded image.</returns>
         public static Image CreateImage(string filePath)
         {
-            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                return Image.FromStream(fs);
+            using (var filestream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                return Image.FromStream(filestream);
+            }
         }
 
         /// <summary>
@@ -33,11 +35,11 @@ namespace BarbezDotEu.Drawing
         /// <returns>The byte array.</returns>
         public static byte[] ImageToByte(Image img, ImageFormat format)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (var memoryStrem = new MemoryStream())
             {
-                img.Save(ms, format);
+                img.Save(memoryStrem, format);
                 img.Dispose();
-                return ms.ToArray();
+                return memoryStrem.ToArray();
             }
         }
 
@@ -49,9 +51,9 @@ namespace BarbezDotEu.Drawing
         /// <returns>A byte array representing the converted image.</returns>
         public static byte[] ConvertToImageFormat(string imagePath, ImageFormat format)
         {
-            using (Image img = CreateImage(imagePath))
+            using (var image = CreateImage(imagePath))
             {
-                return ImageToByte(img, format);
+                return ImageToByte(image, format);
             }
         }
 
@@ -63,17 +65,16 @@ namespace BarbezDotEu.Drawing
         /// <param name="backgroundColor">The background color to use.</param>
         public static void GetImage(object @object, Image destination, Color backgroundColor)
         {
-            using (Graphics graphics = Graphics.FromImage(destination))
+            using (var graphics = Graphics.FromImage(destination))
             {
-                IntPtr deviceContextHandle = IntPtr.Zero;
-                RECT rectangle = new RECT
+                var deviceContextHandle = IntPtr.Zero;
+                var rectangle = new RECT
                 {
                     Right = destination.Width,
                     Bottom = destination.Height
                 };
 
                 graphics.Clear(backgroundColor);
-
                 try
                 {
                     deviceContextHandle = graphics.GetHdc();
@@ -100,7 +101,7 @@ namespace BarbezDotEu.Drawing
         /// <returns>The byte array.</returns>
         public static byte[] Watermark(Image image, string watermarkFilePath, ImageFormat format)
         {
-            using (Image watermark = CreateImage(watermarkFilePath))
+            using (var watermark = CreateImage(watermarkFilePath))
             {
                 return Watermark(image, format, watermark);
             }
@@ -115,11 +116,11 @@ namespace BarbezDotEu.Drawing
         /// <returns>A byte array representing the watermarked image.</returns>
         public static byte[] Watermark(string imageFilePath, string watermarkFilePath, ImageFormat format)
         {
-            using (Image img = CreateImage(imageFilePath))
+            using (var image = CreateImage(imageFilePath))
             {
-                using (Image watermark = CreateImage(watermarkFilePath))
+                using (var watermark = CreateImage(watermarkFilePath))
                 {
-                    return Watermark(img, format, watermark);
+                    return Watermark(image, format, watermark);
                 }
             }
         }
@@ -133,7 +134,7 @@ namespace BarbezDotEu.Drawing
         /// <returns>A byte array representing the watermarked image.</returns>
         public static byte[] Watermark(Image image, ImageFormat format, Image watermark)
         {
-            using (Graphics graphics = Graphics.FromImage(image))
+            using (var graphics = Graphics.FromImage(image))
             {
                 graphics.SmoothingMode = SmoothingMode.HighQuality;
                 int repeatX = 1;
@@ -155,12 +156,12 @@ namespace BarbezDotEu.Drawing
 
         private static byte[] SaveImage(Image image, ImageFormat format, Graphics graphics)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
-                image.Save(ms, format);
+                image.Save(memoryStream, format);
                 image.Dispose();
                 graphics.Flush();
-                return ms.ToArray();
+                return memoryStream.ToArray();
             }
         }
     }
