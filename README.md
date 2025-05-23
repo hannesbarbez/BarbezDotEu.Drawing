@@ -38,14 +38,23 @@ The `ImageHelper` static class provides helper methods for image creation, conve
 - `Image CreateImage(string filePath)`  
   Loads an image from the specified file path.
 
-- `byte[] ImageToByte(Bitmap img, ImageFormat format)`  
-  Converts a bitmap image to a byte array in the specified format.
+- `byte[] ImageToByte(Image img, ImageFormat format)`  
+  Converts an image to a byte array in the specified format.
+
+- `byte[] ConvertToImageFormat(string imagePath, ImageFormat format)`  
+  Loads an image from the specified file path and converts it to a byte array in the given image format.
 
 - `void GetImage(object obj, Image destination, Color backgroundColor)`  
-  Renders an object's visual representation (must implement `IViewObject`) to an image with a specified background color.
+  Renders an object's visual representation (must implement `IViewObject`) to an image with the provided background color.
 
-- `byte[] ImageToByte(Bitmap img, string watermarkFilePath, ImageFormat format)`  
-  Converts a bitmap image to a byte array with a watermark applied.
+- `byte[] Watermark(Image image, string watermarkFilePath, ImageFormat format)`  
+  Applies a watermark from the specified file path to the given image and converts the result to a byte array.
+
+- `byte[] Watermark(string imageFilePath, string watermarkFilePath, ImageFormat format)`  
+  Loads an image and a watermark from the given file paths, applies the watermark, and converts the result to a byte array.
+
+- `byte[] Watermark(Image image, ImageFormat format, Image watermark)`  
+  Applies the provided watermark image to the given image and converts the result to a byte array.
 
 ## License
 
