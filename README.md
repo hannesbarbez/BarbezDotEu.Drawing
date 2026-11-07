@@ -1,76 +1,56 @@
 # BarbezDotEu.Drawing
 
-This project is a .NET library targeting **.NET Standard 2.0**.  
-It provides drawing and imaging utilities, and depends on the `System.Drawing.Common` package for cross-platform graphics support.
+BarbezDotEu.Drawing is a .NET Standard 2.0 library with drawing and image helpers. It uses [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common/).
 
-## Target Framework
+## Installation
 
-- .NET Standard 2.0
+```shell
+dotnet add package BarbezDotEu.Drawing
+```
 
-## Dependencies
+## Platform support
 
-- [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common/)
+The library targets .NET Standard 2.0, but that does not make its graphics APIs cross-platform. `System.Drawing.Common` is supported only on Windows in .NET 6 and later. Check the platform support of your runtime before using this package.
 
-## Classes and Interfaces
+## API
 
-### RECT
+### `RECT`
 
-The `RECT` struct represents a rectangle by defining the coordinates of its edges.
+A sequentially laid-out struct with `Left`, `Top`, `Right`, and `Bottom` integer fields, intended for interop with APIs that use this rectangle layout.
 
-- **Left, Top, Right, Bottom**: The coordinates of the rectangle's edges.
+### `IViewObject`
 
----
+A COM interface for drawing an object's visual representation to a device context. Its `Draw` method accepts the drawing aspect, target device contexts, and bounds.
 
-### IViewObject
+### `ImageHelper`
 
-The `IViewObject` interface is a COM interface for drawing objects. It is typically used for advanced scenarios involving COM interop and custom rendering.
+Static helpers for image loading, conversion, rendering, and watermarking:
 
-- **Draw**: Renders the visual representation of the object to a device context.
+| Method | Description |
+| --- | --- |
+| `CreateImage(string filePath)` | Loads and returns an image from a file path. |
+| `ImageToByte(Image img, ImageFormat format)` | Encodes an image as a byte array in the specified format. |
+| `ConvertToImageFormat(string imagePath, ImageFormat format)` | Loads an image from a path and encodes it in the specified format. |
+| `GetImage(object obj, Image destination, Color backgroundColor)` | Clears the destination image to the background color, then renders the object through `IViewObject`. |
+| `Watermark(Image image, string watermarkFilePath, ImageFormat format)` | Applies a watermark loaded from a path and encodes the result. |
+| `Watermark(string imageFilePath, string watermarkFilePath, ImageFormat format)` | Loads the source and watermark images from paths, applies the watermark, and encodes the result. |
+| `Watermark(Image image, ImageFormat format, Image watermark)` | Applies the supplied watermark image repeatedly over the source image and encodes the result. |
 
----
-
-### ImageHelper
-
-The `ImageHelper` static class provides helper methods for image creation, conversion, and watermarking.
-
-#### Methods
-
-- `Image CreateImage(string filePath)`  
-  Loads an image from the specified file path.
-
-- `byte[] ImageToByte(Image img, ImageFormat format)`  
-  Converts an image to a byte array in the specified format.
-
-- `byte[] ConvertToImageFormat(string imagePath, ImageFormat format)`  
-  Loads an image from the specified file path and converts it to a byte array in the given image format.
-
-- `void GetImage(object obj, Image destination, Color backgroundColor)`  
-  Renders an object's visual representation (must implement `IViewObject`) to an image with the provided background color.
-
-- `byte[] Watermark(Image image, string watermarkFilePath, ImageFormat format)`  
-  Applies a watermark from the specified file path to the given image and converts the result to a byte array.
-
-- `byte[] Watermark(string imageFilePath, string watermarkFilePath, ImageFormat format)`  
-  Loads an image and a watermark from the given file paths, applies the watermark, and converts the result to a byte array.
-
-- `byte[] Watermark(Image image, ImageFormat format, Image watermark)`  
-  Applies the provided watermark image to the given image and converts the result to a byte array.
+`GetImage` requires an object that supports `IViewObject`. `ImageToByte` and the `Watermark` overloads that accept a source `Image` dispose that image; do not reuse it after calling these methods.
 
 ## License
 
-[MIT](LICENSE)
+This project is licensed under the [MIT License](LICENSE).
 
-## Third Party Notices
+## Third-party notices
 
-This repository and package incorporates components from the Open Source Software below. The original copyright notices and the licenses under which the author of this repository and package received such components are set forth below for informational purposes.
+This project incorporates components based on work by Richard James Moss, copyright 2014, described in CodeProject article 793687. The CodeProject URL previously listed for the article is no longer available. The included work is licensed under the MIT License:
 
-The article at https://www.codeproject.com/Articles/793687/Configuring-the-emulation-mode-of-an-Internet-Expl, along with any associated source code and files, used by this repository and package, is licensed under The MIT License.
+### Terms of the MIT License for third-party
 
-### Terms of the MIT License for third-party:
--------------------------------------------------------------------
 Copyright 2014 Richard James Moss
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
